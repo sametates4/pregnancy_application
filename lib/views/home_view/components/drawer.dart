@@ -14,6 +14,9 @@ class BuildDrawer extends StatelessWidget {
           UserAccountsDrawerHeader(
             accountName: Text(FirebaseAuth.instance.currentUser!.displayName.toString()),
             accountEmail: Text(FirebaseAuth.instance.currentUser!.email.toString()),
+            decoration: const BoxDecoration(
+              color: Color.fromRGBO(250, 228, 218, 1),
+            ),
           ),
           const Spacer(),
           ListTile(

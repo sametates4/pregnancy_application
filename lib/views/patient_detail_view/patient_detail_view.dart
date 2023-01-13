@@ -108,7 +108,7 @@ class _PatientDetailViewState extends State<PatientDetailView> {
                   children: [
                     ProgressBar(value: double.parse(widget.doc['daily']), text: daily),
                     ProgressBar(value: newWeekly, text: weekly),
-                    ProgressBar(value: value, text: babyDevelop),
+                    ProgressBar(value: value, text: baby),
                   ],
                 ),
               ),
@@ -116,6 +116,7 @@ class _PatientDetailViewState extends State<PatientDetailView> {
                 width: double.infinity,
                 height: 200,
                 decoration: BoxDecoration(
+                    color: Colors.orange,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: const Color.fromRGBO(235, 226, 223, 1),)
                 ),

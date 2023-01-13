@@ -22,7 +22,6 @@ class BuildPatient extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     var newIndex = snapshot.data!.docs[index];
@@ -32,6 +31,9 @@ class BuildPatient extends StatelessWidget {
                       List<double> newList = [];
                       List<String> label = [];
                       double value = 0.0;
+                      double week = 0.0;
+                      double newWeekly = 0.0;
+                      int tag = 0;
                       if (newIndex['day'] == "") {
                       } else {
                         var date = DateTime(
@@ -39,12 +41,17 @@ class BuildPatient extends StatelessWidget {
                             int.parse(newIndex['month'].toString()),
                             int.parse(newIndex['day'].toString()));
                         var finishDate = date.difference(DateTime.now());
+                        print(finishDate);
                         var val = 288 - finishDate.inHours / 24;
                         value = val.remap(0, 288, 0, 1);
                       }
-                      int tag = int.parse(newIndex['weeklyTag'].toString());
-                      double week = double.parse(newIndex['weekly'].toString());
-                      double newWeekly = week / tag;
+                      if(newIndex['weekly'] == ""){
+
+                      }else{
+                        tag = int.parse(newIndex['weeklyTag'].toString());
+                        week = double.parse(newIndex['weekly'].toString());
+                        newWeekly = week / tag;
+                      }
                       map.forEach((k, v) {
                         newList.add(double.parse(v.toString()));
                         label.add('${k + 1}');
@@ -62,7 +69,7 @@ class BuildPatient extends StatelessWidget {
                                     value: double.parse(newIndex['daily']),
                                     text: daily),
                                 ProgressBar(value: newWeekly, text: weekly),
-                                ProgressBar(value: value, text: babyDevelop),
+                                ProgressBar(value: value, text: baby),
                               ],
                             ),
                           ),
@@ -71,6 +78,7 @@ class BuildPatient extends StatelessWidget {
                             width: double.infinity,
                             height: 200,
                             decoration: BoxDecoration(
+                              color: Colors.orange,
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: const Color.fromRGBO(235, 226, 223, 1),)
                             ),
@@ -94,14 +102,8 @@ class BuildPatient extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 180,
-                            child: ChartToRun(data: [newList], label: label),
-                          ),
                           const SizedBox(height: 8,),
-                          SizedBox(
+                          Container(
                             width: double.infinity,
                             height: 250,
                             child: Column(
@@ -112,43 +114,42 @@ class BuildPatient extends StatelessWidget {
                                 ),
                                 Expanded(
                                     child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: buttons.length,
-                                  itemBuilder: (context, index) {
-                                    return SizedBox(
-                                      width: double.infinity,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 16, right: 16, top: 8),
-                                        child: ElevatedButton(
-                                          onPressed: newIndex['days'] ==
-                                                  '${DateTime.now().day}'
+                                      physics: const BouncingScrollPhysics(),
+                                      itemCount: buttons.length,
+                                      itemBuilder: (context, index) {
+                                        return ElevatedButton(
+                                          onPressed: newIndex['days'] == '${DateTime.now().day}'
                                               ? null
                                               : () {
-                                                  switch (index) {
-                                                    case 0:
-                                                      healt(0.25, week, tag);
-                                                      break;
-                                                    case 1:
-                                                      healt(0.50, week, tag);
-                                                      break;
-                                                    case 2:
-                                                      healt(0.75, week, tag);
-                                                      break;
-                                                    case 3:
-                                                      healt(1, week, tag);
-                                                      break;
-                                                  }
-                                                },
+                                            switch (index) {
+                                              case 0:
+                                                healt(0.25, week, tag);
+                                                break;
+                                              case 1:
+                                                healt(0.50, week, tag);
+                                                break;
+                                              case 2:
+                                                healt(0.75, week, tag);
+                                                break;
+                                              case 3:
+                                                healt(1, week, tag);
+                                                break;
+                                            }
+                                          },
                                           child: Text(buttons[index]),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ))
+                                        );
+                                      },
+                                    ))
                               ],
                             ),
                           ),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 180,
+                            child: ChartToRun(data: [newList], label: label),
+                          ),
+
                         ],
                       );
                     } else {
@@ -163,19 +164,6 @@ class BuildPatient extends StatelessWidget {
               }
             },
           ),
-        ),
-        ListTile(
-          title: const Text(messageFromDoc),
-          trailing: const Icon(
-            Icons.chevron_right,
-            color: Colors.black,
-          ),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => ChatView(id: user!.uid, name: 'Doctor')));
-          },
         ),
       ],
     );

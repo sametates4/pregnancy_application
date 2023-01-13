@@ -7,13 +7,14 @@ const String doctor = "Doctor";
 const String patient = "Patient";
 const String choice = "Make a choice";
 const String name = "Name or SurName";
+const String appTitle = "Pregnancy Application";
           // Drawer //
 const String exit = "Exit";
 const String patients = "Patients";
           // Home //
 const String home = "Home Page";
 const String messageFromDoc = "Messages from the Doctor";
-const String babyDevelop = "Baby"; // Baby growth percentage
+const String baby = "Baby"; // Baby growth percentage
 const String ok = "Ok";
 const String daily = "Daily";
 const String weekly = "Weekly";

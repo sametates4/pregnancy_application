@@ -62,7 +62,7 @@ class _ChatViewState extends State<ChatView> {
                 controller: _message,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: message,
+                  hintText: message,
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.send),
                     onPressed: ()async{

@@ -20,11 +20,11 @@ class AuthService{
       'babyInfo': {},
       'hemogram': [],
       'days': '32',
-      'daily': '',
+      'daily': '0.0',
       'day': '',
       'month': '',
       'year': '',
-      'weekly': '0',
+      'weekly': '',
       'weeklyTag': '0',
     });
     return createUser;

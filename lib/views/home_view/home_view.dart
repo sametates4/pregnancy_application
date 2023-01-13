@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service/strings.dart';
+import '../chat_view/chat_view.dart';
 import 'components/doctor.dart';
 
 class HomeView extends StatefulWidget {
@@ -30,6 +31,9 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .where('uid', isEqualTo: user!.uid).get();
       bool val = FirebaseAuth.instance.currentUser!.emailVerified;
       if(val == false){
         showModalBottomSheet(
@@ -51,23 +55,24 @@ class _HomeViewState extends State<HomeView> {
             }
         );
       }
-      final pref = await SharedPreferences.getInstance();
-      if(pref.getString('day') == null){
-        showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              title: const Text('Tarih Seçiniz'),
-              content: TextField(
-                controller: _date,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.date_range,),
-                    onPressed: (){
-                      showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2022),
-                          lastDate: DateTime(2050)).then((value){
+      if(doc.docs[0]['user_type'].toString() == patient){
+        final pref = await SharedPreferences.getInstance();
+        if(pref.getString('day') == null){
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: const Text('Tarih Seçiniz'),
+                content: TextField(
+                  controller: _date,
+                  decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.date_range,),
+                        onPressed: (){
+                          showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2022),
+                              lastDate: DateTime(2050)).then((value){
                             var time = value!.add(const Duration(days: 288));
                             _date.text = '${value.day}-${value.month}-${value.year}';
                             FirebaseFirestore.instance.collection('users').doc(user?.uid).update({
@@ -75,33 +80,27 @@ class _HomeViewState extends State<HomeView> {
                               'year': time.year.toString(),
                               'month': time.month.toString(),
                             });
-                      });
+                          });
+                        },
+                      )
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    child: const Text(ok),
+                    onPressed: (){
+                      pref.setString('day', '1');
+                      Navigator.pop(context);
                     },
                   )
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: const Text(ok),
-                  onPressed: (){
-                    pref.setString('day', '1');
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            )
-        );
+                ],
+              )
+          );
+        }
       }
+      write(doc.docs[0]['user_type'].toString());
     });
-    check();
     super.initState();
-  }
-
-  void check()async{
-    final doc = await FirebaseFirestore.instance
-        .collection('users')
-        .where('uid', isEqualTo: user!.uid).get();
-    write(doc.docs[0]['user_type'].toString());
   }
 
   void write(String val){
@@ -111,7 +110,22 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(home),),
+      appBar: context.watch<UserTypeModel>().valRead() == patient ? AppBar(
+        title: const Text(home),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.message_outlined),
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => ChatView(id: user!.uid, name: 'Doctor')));
+            },
+          )
+        ],
+      ) : AppBar(
+        title: const Text(home),
+      ),
       drawer: const BuildDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
