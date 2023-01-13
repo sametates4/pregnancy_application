@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
-          useMaterial3: true,
           scaffoldBackgroundColor: const Color.fromRGBO(250, 228, 218, 1),
           appBarTheme: const AppBarTheme(
             backgroundColor: Color.fromRGBO(250, 228, 218, 1),
