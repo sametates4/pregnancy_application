@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregnancy_application/service/strings.dart';
@@ -16,33 +15,7 @@ class BuildDrawer extends StatelessWidget {
             accountName: Text(FirebaseAuth.instance.currentUser!.displayName.toString()),
             accountEmail: Text(FirebaseAuth.instance.currentUser!.email.toString()),
           ),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('users').snapshots(),
-              builder: (context, snapshot) {
-                if(snapshot.hasData){
-                  return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      var newIndex = snapshot.data!.docs[index];
-                      if(newIndex['user_type'] == patient){
-                        return ListTile(
-                          title: Text(newIndex['name']),
-                          onTap: ()async{
-
-                          },
-                        );
-                      }else{
-                        return Container();
-                      }
-                    },
-                  );
-                }else{
-                  return const Center(child: CircularProgressIndicator(),);
-                }
-              },
-            ),
-          ),
+          const Spacer(),
           ListTile(
             title: const Text(exit),
             leading: const Icon(Icons.exit_to_app, color: Colors.black,),

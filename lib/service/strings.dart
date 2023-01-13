@@ -12,5 +12,19 @@ const String exit = "Exit";
 const String patients = "Patients";
           // Home //
 const String home = "Home Page";
+const String messageFromDoc = "Messages from the Doctor";
+const String babyDevelop = "Baby"; // Baby growth percentage
+const String ok = "Ok";
+const String daily = "Daily";
+const String weekly = "Weekly";
+const String questions = "How do you feel today?";
+const List<String> buttons = ['Bad', 'Middling', 'Good deal!', 'Good'];
           // Message //
 const String verifyEmail = "Please verify your e-mail address";
+const String emptyChatMessage = "No Message";
+          // Chat //
+const String message = "Message";
+          // Patient Detail //
+const String medicine = "Medicine";
+const String exercise = "Exercise";
+const String hemogram = "Whole Blood (Hemogram)";
