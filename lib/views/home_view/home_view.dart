@@ -61,7 +61,7 @@ class _HomeViewState extends State<HomeView> {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: const Text('Tarih Seçiniz'),
+                title: const Text(pregnantDate),
                 content: TextField(
                   controller: _date,
                   decoration: InputDecoration(

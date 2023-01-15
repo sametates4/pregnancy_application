@@ -41,58 +41,62 @@ class _AuthViewState extends State<AuthView> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(appTitle,style: TextStyle(
-                  fontSize: 25
-              ),),
-              Image.asset('assets/images/im4.jpeg'),
-              Center(
-                child: Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        switchInCurve: Curves.easeInQuad,
-                        child: value ? loginWidget() : registerWidget()),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8, bottom: 4),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              )),
-                          onPressed: () {
-                            setState(() {
-                              value = !value;
-                            });
-                          },
-                          child: AnimatedSwitcher(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: size.width,
+              height: size.height * 0.9,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text(appTitle,style: TextStyle(fontSize: 25),),
+                  Image.asset('assets/images/im4.jpeg'),
+                  Center(
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             switchInCurve: Curves.easeInQuad,
-                            child: value
-                                ? const Text(
-                              register,
-                              style: TextStyle(fontSize: 18),
-                              key: Key('1'),
-                            )
-                                : const Text(
-                              login,
-                              style: TextStyle(fontSize: 18),
-                              key: Key('2'),
-                            ),
-                          )),
+                            child: value ? loginWidget() : registerWidget()),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8, bottom: 4),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                              onPressed: () {
+                                setState(() {
+                                  value = !value;
+                                });
+                              },
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 500),
+                                switchInCurve: Curves.easeInQuad,
+                                child: value
+                                    ? const Text(
+                                  register,
+                                  style: TextStyle(fontSize: 18),
+                                  key: Key('1'),
+                                )
+                                    : const Text(
+                                  login,
+                                  style: TextStyle(fontSize: 18),
+                                  key: Key('2'),
+                                ),
+                              )),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            )
           ),
         ),
       ),
