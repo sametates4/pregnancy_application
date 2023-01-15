@@ -47,13 +47,18 @@ class _PatientDetailViewState extends State<PatientDetailView> {
       var val = 288 - finishDate.inHours / 24;
       value = val.remap(0, 288, 0, 1);
     }
-    int tag = int.parse(widget.doc['weeklyTag'].toString());
-    double week = double.parse(widget.doc['weekly'].toString());
-    newWeekly = week / tag;
-    map.forEach((k, v) {
-      newList.add(double.parse(v.toString()));
-      label.add('${k + 1}');
-    });
+
+    if(widget.doc['weekly'] == ""){
+
+    }else{
+      int tag = int.parse(widget.doc['weeklyTag'].toString());
+      double week = double.parse(widget.doc['weekly'].toString());
+      newWeekly = week / tag;
+      map.forEach((k, v) {
+        newList.add(double.parse(v.toString()));
+        label.add('${k + 1}');
+      });
+    }
   }
 
 
@@ -155,11 +160,18 @@ class _PatientDetailViewState extends State<PatientDetailView> {
         onPressed: ()async{
           List list = widget.doc['hemogram'];
           list.add(_hemogram.text);
-          await FirebaseFirestore.instance.collection('users').doc(widget.doc.id).update({
-            'medicine': _medicine.text,
-            'exercise': _exercise.text,
-            'hemogram': list,
-          });
+          if(_hemogram.text.isEmpty){
+            await FirebaseFirestore.instance.collection('users').doc(widget.doc.id).update({
+              'medicine': _medicine.text,
+              'exercise': _exercise.text,
+            });
+          }else{
+            await FirebaseFirestore.instance.collection('users').doc(widget.doc.id).update({
+              'medicine': _medicine.text,
+              'exercise': _exercise.text,
+              'hemogram': list,
+            });
+          }
           _hemogram.clear();
           _exercise.clear();
           _medicine.clear();

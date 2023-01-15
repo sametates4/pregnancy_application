@@ -19,7 +19,7 @@ const String ok = "Ok";
 const String daily = "Daily";
 const String weekly = "Weekly";
 const String questions = "How do you feel today?";
-const String pregnantDate = "Tarih Seçiniz";
+const String pregnantDate = "Choose Date";
 const List<String> buttons = ['Bad', 'Middling', 'Good deal!', 'Good'];
           // Message //
 const String verifyEmail = "Please verify your e-mail address";
