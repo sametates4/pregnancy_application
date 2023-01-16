@@ -5,7 +5,6 @@ import 'package:pregnancy_application/service/provider/user_type_model/user_type
 import 'package:pregnancy_application/views/home_view/components/drawer.dart';
 import 'package:pregnancy_application/views/home_view/components/patient.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service/strings.dart';
 import '../chat_view/chat_view.dart';
@@ -56,8 +55,7 @@ class _HomeViewState extends State<HomeView> {
         );
       }
       if(doc.docs[0]['user_type'].toString() == patient){
-        final pref = await SharedPreferences.getInstance();
-        if(pref.getString('day') == null){
+        if(doc.docs[0]['day'] == ""){
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
@@ -89,7 +87,6 @@ class _HomeViewState extends State<HomeView> {
                   TextButton(
                     child: const Text(ok),
                     onPressed: (){
-                      pref.setString('day', '1');
                       Navigator.pop(context);
                     },
                   )
